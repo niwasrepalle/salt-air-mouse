@@ -5,6 +5,7 @@ android/local.properties
 android/app/build/
 __pycache__/
 *.apk
+*.idsig
 *.log
 *.jks
 *.keystore
