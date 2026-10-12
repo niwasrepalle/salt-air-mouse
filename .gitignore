@@ -1,0 +1,13 @@
+.build/
+.gradle/
+android/.gradle/
+android/local.properties
+android/app/build/
+__pycache__/
+*.apk
+*.log
+*.jks
+*.keystore
+.env
+.env.*
+!.env.example
