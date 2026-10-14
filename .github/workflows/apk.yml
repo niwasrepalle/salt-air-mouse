@@ -2,8 +2,17 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    paths: ['android/**', '.github/workflows/**']
+    paths: ['android/**', 'receiver/**', 'tests/**', '.github/workflows/**']
+permissions:
+  contents: read
 jobs:
+  receiver-tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m unittest discover -s receiver -v
   apk:
     runs-on: ubuntu-latest
     steps:
@@ -12,11 +21,17 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Check recorded gesture and motion traces
+        run: |
+          mkdir -p .build/core-tests
+          javac -encoding UTF-8 -d .build/core-tests android/app/src/main/java/dev/salt/airmouse/TrackpadEngine.java android/app/src/main/java/dev/salt/airmouse/AirMotion.java tests/CoreTests.java
+          java -cp .build/core-tests CoreTests
       - run: gradle -p android --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:

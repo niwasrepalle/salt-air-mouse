@@ -1,11 +1,13 @@
-# Salt Mouse 2.0
+# Salt AirMouse
 
-A large gesture trackpad, plus air mouse, over trusted private Wi-Fi.
+Turn an Android phone into a large gesture trackpad and rotation-controlled air mouse for a Windows laptop over trusted private Wi-Fi. Built by **Niwas Repalle**.
+
+Native Android Java handles gestures and motion sensors; a Python receiver handles pairing and Windows mouse input. No Python packages are required. This is a personal prototype: physical Android sensor and UI acceptance testing remains pending.
 
 ## Update from version 1
 1. Stop the old Windows receiver with Ctrl+C.
-2. Extract the v2 ZIP and launch **its** `receiver/start-receiver.bat`.
-3. Install the v2 APK on the Pixel 9a. It should update the old app when the signing key matches. If Android reports a signature mismatch, uninstall the old app then install v2; this resets saved settings.
+2. Download or clone this source and launch its `receiver/start-receiver.bat`.
+3. Build or download the v2 APK and install it on your Android phone. It should update the old app when the signing key matches. If Android reports a signature mismatch, uninstall the old app then install v2; this resets saved settings.
 4. Open **Connect**, enter the laptop address and new code, and connect again. The v2 app detects the old receiver and asks you to update it.
 
 ## Minimal interface
@@ -32,7 +34,7 @@ Zoom sends Ctrl + mouse wheel. Browsers, documents and other programs commonly u
 
 Natural scrolling is enabled by default; turn it off in Settings if you prefer the other direction. Pointer sensitivity is saved for both modes.
 
-## Air mouse — Pixel 9a
+## Air mouse
 1. Connect, select **Air mouse**, and check the footer: it should show **Rotation sensor / Receiving** (or Gyroscope / Receiving).
 2. Touch and HOLD anywhere on the large pad. Gently rotate your phone left/right and tilt it up/down. Release the pad to reposition your hand.
 3. Automatic grip maps upright and screen-up grips using the sensor's gravity direction. If direction feels wrong, select **Upright** or **Flat** in Settings, or reverse the horizontal/vertical axes there.
@@ -50,12 +52,12 @@ The old implementation used raw X/Y gyro axes with one upright grip, a separate 
 2. Launch `receiver/start-receiver.bat`, or run `python receiver/receiver.py` from this folder. Keep it open.
 3. Allow Python on PRIVATE networks when Windows Firewall asks. If pairing times out, add your python.exe under Windows Security -> Firewall & network protection -> Allow an app through firewall. Do not disable the firewall. Receiver uses TCP 8765.
 4. Phone and laptop must be on the same trusted Wi-Fi. Use the receiver's Wi-Fi IPv4 (192.168.x.x or similar). If several appear, run `ipconfig` and select Wi-Fi, not VPN / Docker / VirtualBox.
-5. Copy `SaltAirMouse-debug.apk` to the phone, open it and allow installation from that file manager if prompted.
+5. Build an APK using the instructions below, or download the **SaltAirMouse-debug** artifact from a successful GitHub Actions run once this repository is published. Extract the artifact ZIP, copy `app-debug.apk` to the phone and open it. Allow installation from that file manager if prompted.
 6. Tap Connect, enter the address, receiver's 6-digit code and port 8765. Code expires after five minutes; restart the receiver for a new code. Established connections continue past code expiry.
 7. Switching away or locking the phone disconnects it. Connect again on returning. Ctrl+C in the receiver is the emergency stop.
 
 ## Build without Android Studio
-Open PowerShell in this extracted folder:
+Open PowerShell in the source folder:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\build-apk.ps1
@@ -68,7 +70,7 @@ With existing tools:
 .\build-apk.ps1 -JdkPath 'C:\path\to\jdk17' -SdkPath 'C:\path\to\sdk' -SkipSdkSetup
 ```
 
-The normal Gradle project is retained: `gradle -p android assembleDebug` with Gradle 8.9 / JDK 17 / SDK 35. That route previously failed here before compilation because Java could not open a local socket. The verified build uses the direct SDK route. The optional `.github/workflows/apk.yml` cloud workflow is supplied but has not been run; upload this folder's CONTENTS to repository root to use it.
+The normal Gradle project is retained: `gradle -p android assembleDebug` with Gradle 8.9 / JDK 17 / SDK 35. That route previously failed here before compilation because Java could not open a local socket. The verified build uses the direct SDK route. The prepared `.github/workflows/apk.yml` runs Windows receiver tests, recorded Java core tests and an Android debug build. This revised workflow has not yet been run on GitHub. Upload the source folder contents to the repository root to use it. Source archives do not include an APK or signing key.
 
 ## Verification
 ```powershell

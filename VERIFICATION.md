@@ -13,7 +13,7 @@ User reports Google Pixel 9a: version 1 connects and touchpad works, but air mou
 - Receiver protocol 2 supports horizontal wheel, Ctrl-wheel zoom and drag down/up. The app rejects a v1 receiver with an explicit update message.
 - Receiver releases its held drag button on disconnect; zoom modifier released in finally; physical pre-held Ctrl preserved.
 
-## Checks passed on the final implementation
+## Historical checks recorded on 9 October 2026
 - **23/23 Java core tests:** tap/double tap, move-vs-click, right tap, scroll-vs-pinch, horizontal scroll, zoom direction, drag ordering and cancellation, staggered releases, third-finger suppression, air hold/tap separation, gyro hold gating, upright quaternion yaw, flat grip axis, quaternion sign equivalence, gap/recenter suppression, axis reversal and gyro bias.
 - **15/15 receiver tests:** original pairing/security/command cases plus drag idempotence, button release on disconnect, zoom key sequencing, modifier release on injected error, preservation of pre-held Ctrl, horizontal scrolling and invalid zoom payloads.
 - Actual paired TCP -> SendInput -> Windows cursor smoke test: passed; 12 relative units yielded 14 screen pixels in that run; restored pointer afterward.
@@ -43,3 +43,13 @@ User reports Google Pixel 9a: version 1 connects and touchpad works, but air mou
 APK: SaltAirMouse-debug.apk
 Size: 29075 bytes
 SHA-256: `cddd5bdec9a5cbfbd96b64c2b64ddb7d7999e25400608a64892095dfb35a4b85`
+
+
+## Upload preparation — 14 October 2026
+- Receiver suite rerun on Windows: **15/15 passed**. The sandbox initially blocked local sockets; the authorized unrestricted rerun passed. Tests use a recording mouse adapter.
+- Revised CI includes Windows receiver tests, recorded Java core tests, Android SDK setup v4 and a debug APK artifact. The revised CI is prepared, not cloud-verified.
+- Java core tests and APK build were not rerun during this preparation: a local JDK was unavailable. Historical results above are not new validation.
+- No Android device acceptance tests were added.
+- The historical APK hash above identifies the earlier build; that APK is not bundled in this source archive.
+- Upload authorized on 14 October 2026; cloud results are recorded below after verification.
+
