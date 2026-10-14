@@ -53,3 +53,11 @@ SHA-256: `cddd5bdec9a5cbfbd96b64c2b64ddb7d7999e25400608a64892095dfb35a4b85`
 - The historical APK hash above identifies the earlier build; that APK is not bundled in this source archive.
 - Upload authorized on 14 October 2026; cloud results are recorded below after verification.
 
+
+## GitHub Actions verification — 14 October 2026
+- Run: https://github.com/niwasrepalle/salt-air-mouse/actions/runs/38600956801
+- Tested source: 3d58bc5c7a5b984718af9133147757b7f506fe07
+- Windows receiver test job: passed.
+- Recorded Java gesture and motion tests: passed.
+- Android Gradle debug build: passed; SaltAirMouse-debug artifact produced.
+- Physical Android installation and sensor acceptance testing remain pending.

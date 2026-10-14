@@ -70,7 +70,7 @@ With existing tools:
 .\build-apk.ps1 -JdkPath 'C:\path\to\jdk17' -SdkPath 'C:\path\to\sdk' -SkipSdkSetup
 ```
 
-The normal Gradle project is retained: `gradle -p android assembleDebug` with Gradle 8.9 / JDK 17 / SDK 35. That route previously failed here before compilation because Java could not open a local socket. The verified build uses the direct SDK route. The prepared `.github/workflows/apk.yml` runs Windows receiver tests, recorded Java core tests and an Android debug build. This revised workflow has not yet been run on GitHub. Upload the source folder contents to the repository root to use it. Source archives do not include an APK or signing key.
+The normal Gradle project is retained: `gradle -p android assembleDebug` with Gradle 8.9 / JDK 17 / SDK 35. That route previously failed here before compilation because Java could not open a local socket. The verified build uses the direct SDK route. The prepared `.github/workflows/apk.yml` runs Windows receiver tests, recorded Java core tests and an Android debug build. The revised workflow passed on 14 October 2026: Windows receiver tests, Java core tests and the Android build. Download the APK artifact from the [verified run](https://github.com/niwasrepalle/salt-air-mouse/actions/runs/38600956801). Source archives do not include an APK or signing key.
 
 ## Verification
 ```powershell
@@ -99,3 +99,4 @@ Dry-run validates commands without affecting the desktop. Core tests use recorde
 - `tests/CoreTests.java`: gesture and air-math tests.
 
 Technical references: [Android SensorManager](https://developer.android.com/reference/android/hardware/SensorManager), [Android motion sensors](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion), [Windows MOUSEINPUT](https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-mouseinput), [Windows SendInput](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendinput).
+
